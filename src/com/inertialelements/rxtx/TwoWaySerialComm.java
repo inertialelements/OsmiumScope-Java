@@ -29,8 +29,7 @@
    made
  * by GT Silicon Pvt Ltd
  *
- * Modifications made by GT Silicon Pvt Ltd are within the following
-comments:
+ * Modifications made by GT Silicon Pvt Ltd are within the following comments:
  * // BEGIN - Added by GT Silicon - BEGIN //
  * {Code included or modified by GT Silicon}
  * // END - Added by GT Silicon - END //
@@ -61,14 +60,14 @@ public class TwoWaySerialComm
     String configData = "";
     OutputStream mBufferOut = null;
     InputStream mBufferIn = null;
-    static File nonPDRFile=null;
+    static DataLogger dataLogger = null;
     // END - Added by GT Silicon - END //
     
     public TwoWaySerialComm(String sampleFreq)
     {
         super();
         // BEGIN - Added by GT Silicon - BEGIN //
-            nonPDRFile = Utilities.createNewFile(sampleFreq);
+            dataLogger = Utilities.createNewFile(sampleFreq);
         // END - Added by GT Silicon - END //
     }
     
@@ -146,14 +145,19 @@ public class TwoWaySerialComm
     // BEGIN - Added by GT Silicon - BEGIN //
     public static class RunInBackGround implements Runnable
     {
-        ParseData start = new ParseData();
+        ParseData parseData;
+
+        public RunInBackGround(TwoWaySerialComm twoWaySerialComm) {
+            parseData = new ParseData(twoWaySerialComm);
+        }
+        
 
         @Override
         public void run()
         {
             if (ParseData.normal_imu)
             {
-                start.get_plot_normal();
+                parseData.get_plot_normal();
             }
         }
     }
@@ -218,11 +222,12 @@ public class TwoWaySerialComm
             int outrate_cmd = hexval[Utilities.get_ratedevider(outrate)];
             int checksum = 0x50 + 0x40 + outrate_cmd;
             String send = String.format("0x50 0x%02x 0x00 0x%02x", (0x40+outrate_cmd), checksum);
+            System.out.println("Command: "+send);
             TwoWaySerialComm twoWaySerialComm = new TwoWaySerialComm(samp_freq);
             twoWaySerialComm.connect(Constants.SERIAL_PORT);
             twoWaySerialComm.sendData(Utilities.convertingTobyteArray(send));
             ParseData.normal_imu = true;
-            new Thread(new RunInBackGround()).start();
+            new Thread(new RunInBackGround(twoWaySerialComm)).start();
         }
         catch ( Exception e )
         {
