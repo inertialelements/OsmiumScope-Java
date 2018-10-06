@@ -15,3 +15,5 @@ Following dependencies are used in implementation::
 RXTX - a Java cross platform wrapper library for the serial port
 
 JOGL - Java OpenGL (JOGL) is a wrapper library that allows OpenGL to be used in the Java programming language.
+
+[How to run the project in Netbeans](https://github.com/inertialelements/OsmiumScope-Java/blob/master/How%20to%20run%20the%20project%20in%20Netbeans%20IDE.pdf)
