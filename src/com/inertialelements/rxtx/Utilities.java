@@ -27,7 +27,8 @@ import java.util.Locale;
 import javax.swing.JOptionPane;
 
 public class Utilities {
-      public static DataLogger createNewFile(String sample_freq) {
+    
+    public static DataLogger createNewFile(String sample_freq) {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMdd_HHmmss", Locale.US);
         Date now = new Date();
         File root = new File("data");
@@ -42,7 +43,9 @@ public class Utilities {
         if(Constants.check_log){
             dataLogger.start();
             System.out.println("Log file's full path: "+nonPDRFile.getAbsolutePath());
-            String header = String.format("%12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \n\n\n ", "PKT_No.", "TimeStamp", "ax(m/s^2)", "ay(m/s^2)", "az(m/s^2)", "gx(rad/s)", "gy(rad/s)", "gz(rad/s)");
+            String header = String.format("%12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s\n ", 
+                    "PKT_No.", "TimeStamp", "ax(m/s^2)", "ay(m/s^2)", "az(m/s^2)", "gx(rad/s)", 
+                    "gy(rad/s)", "gz(rad/s)", "mx(mtesla)", "my(mtesla)", "mz(mtesla)");
             writeNonPDRData(nonPDRFile,header);
         }
 //        System.out.println("File full path: "+nonPDRFile.getAbsolutePath());

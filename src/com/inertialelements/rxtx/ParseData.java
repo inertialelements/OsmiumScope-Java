@@ -20,7 +20,6 @@ import static com.inertialelements.rxtx.TwoWaySerialComm.dataLogger;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import java.nio.ByteBuffer;
-import java.text.DecimalFormat;
 import java.util.concurrent.ConcurrentLinkedQueue;
 import java.util.logging.Level;
 import java.util.logging.Logger;
@@ -133,7 +132,7 @@ public class ParseData {
                         previousPkt = pktNum;
                         if (Constants.check_log && TwoWaySerialComm.dataLogger != null) 
                         {
-                            dataLogger.addData(new AccGyro(pktNum, timeStamp, ax, ay, az, gx, gy, gz));
+                            dataLogger.addData(new AccGyroMag(pktNum, timeStamp, ax, ay, az, gx, gy, gz, mx, my, mz));
 //                            String toFile = String.format("%12f \t %12f \t %12f \t %12f \n",filter_data[0],filter_data[1],filter_data[2],filter_data[3]);
 //                            String toFile = String.format("%12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \n ",String.valueOf(pktNum), dfTime.format(timeStamp), df.format(ax), df.format(ay), df.format(az), df.format(gx), df.format(gy), df.format(gz));
 //                            Utilities.writeNonPDRData(TwoWaySerialComm.nonPDRFile,toFile);

@@ -32,7 +32,7 @@ import java.util.logging.Logger;
 public class DataLogger extends Thread{
     
     private File logFile;
-    private ConcurrentLinkedQueue<AccGyro> mData;
+    private ConcurrentLinkedQueue<AccGyroMag> mData;
     private boolean bStart = false; 
     private DecimalFormat df = new DecimalFormat("0.00");
     private DecimalFormat dfTime = new DecimalFormat("0.000");
@@ -42,7 +42,7 @@ public class DataLogger extends Thread{
         mData = new ConcurrentLinkedQueue<>();
     }
     
-    public void addData(AccGyro accGyro){
+    public void addData(AccGyroMag accGyro){
         mData.add(accGyro);
     }
     
@@ -53,12 +53,13 @@ public class DataLogger extends Thread{
             FileWriter writer = new FileWriter(this.logFile,true);
             
             while(bStart){
-                for (AccGyro accGyro = mData.poll(); accGyro != null; accGyro = mData.poll())
+                for (AccGyroMag accGyro = mData.poll(); accGyro != null; accGyro = mData.poll())
                 {
-                    String toFile = String.format("%12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \n ",
-                            String.valueOf(accGyro.pkt_num), dfTime.format(accGyro.timestamp), df.format(accGyro.ax), 
-                            df.format(accGyro.ay), df.format(accGyro.az), df.format(accGyro.gx), df.format(accGyro.gy), 
-                            df.format(accGyro.gz));
+                    String toFile = String.format("%12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s \t %12s\n ",
+                            String.valueOf(accGyro.pkt_num), dfTime.format(accGyro.timestamp), 
+                            df.format(accGyro.ax), df.format(accGyro.ay), df.format(accGyro.az), 
+                            df.format(accGyro.gx), df.format(accGyro.gy), df.format(accGyro.gz),
+                            df.format(accGyro.mx), df.format(accGyro.my), df.format(accGyro.mz));
                     writer.append(toFile);
                     writer.flush();
                 }
